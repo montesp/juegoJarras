@@ -1,35 +1,59 @@
+import random
+
 def main():
-    count = 0
-    # Jarra con capacidad de 3 litros
-    jarra3L = 0
-    # Jarra con capacidad de 4 litros
-    jarra4L = 0
+    jarras = list()
+    # Llenado de jarras
+    # Las jarras llenan en 0
+    # Jarra 4L
+    jarras.append(0)
+    # Jarra 3L
+    jarras.append(0)
 
-    # Corre el programa hasta que cumpla su meta
-    while(True):
-        jarra3L = jarra3L + 1
-        comprobarLimiteJarra(jarra3L, 3)
-        count = count + 1
+    # Funcion recursiva que cumple el objetivo
+    llenadoJarra(jarras)
 
-        # Este if funciona para comprobar si alguna de las dos jarras tiene dos litros, deja 
-        if jarra3L == 2 or jarra4L == 2:
-            break
+# Esta funcion hace que la jarra se llenen
+def llenadoJarra(jarra):
+    meta = 2
+    # Jarra 4L = Jarra[0] x
+    # Jarra 3L = Jarra[1] y
+    # Paso 1
+    if jarra[0] < 4:
+        jarra[0] = 4
+    # Paso 2
+    elif jarra[1] < 3:
+        jarra[1] = 3
 
-def llenadoJarra(jarra, tipoDeJarra):
-    jarraLimite = comprobarLimiteJarra(jarra, tipoDeJarra)
+    # Paso 5
+    elif jarra[0] > 0 :
+        jarra[0] = 0
+    # Paso 7
+    elif jarra[0] + jarra[1] >= 4 and jarra[1] > 0:
+        jarra[1] = jarra[1] - (4 - jarra[0])
+    # Paso 8
+    elif jarra[0] + jarra[1] >= 3 and jarra[0] > 0:
+        jarra[0] = jarra[1] - (4 - jarra[0])
+    # Paso 9
+    elif jarra[0] + jarra[1] <= 4 and jarra[1] > 0:
+        jarra[0] = jarra[0] + jarra[1]
+        jarra[1] = 0
+    # Paso 10
+    elif jarra[0] + jarra[1] <= 3 and jarra[0] > 0:
+        jarra[0]= 0
+        jarra[1] = jarra[0] + jarra[1]
+        
 
-    if jarra == 0:
-        pass
+
+    print("[" + str(jarra[0]) + ", " + str(jarra[1]) + "]")
+
+    # Este if termina el loop
+    if jarra[0] == meta or jarra[1] == meta:
+        print('end')
+    else:
+        llenadoJarra(jarra)
 
 
     
-# Comprueba que la jarra no exceda su limite y que no este abajo de 0 litros
-def comprobarLimiteJarra(jarra, jarraLimite):
-    if jarra <= jarraLimite and jarra >= 0:
-        return jarra
-    else:
-        print("La jarra no esta en el limite")
-        return jarraLimite
 
 # Main para correr el programa
 if __name__ == "__main__":
