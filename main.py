@@ -1,3 +1,14 @@
+""""
+    Pavel Ivan Montes Bissio,
+    Ivan Fernando Garcia Olvera,
+    Jesús Manuel Lozoya Morales;
+    18 / sep / 2022
+    Titulo: ProblemaDeJarras
+
+    Hay 2 jarras una de 3 litros y una de 4 litros, el objetivo del programa
+    sera que la jarra de 4 litros llegue a tener 2 litros. Aunque las jarras solo se pueden vaciar completamente, llenar completamente o llenar la otra jarra con el espacio disponible
+"""
+
 from jarras import *
 
 def main():
