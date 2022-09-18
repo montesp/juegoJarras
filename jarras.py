@@ -1,60 +1,66 @@
-import random
+class Jarras:
+    def __init__(self, estado_inicial):
+        self.estado_inicial = estado_inicial
+        self.reglas = list()
 
-def main():
-    jarras = list()
-    # Llenado de jarras
-    # Las jarras llenan en 0
-    # Jarra 4L
-    jarras.append(0)
-    # Jarra 3L
-    jarras.append(0)
-
-    # Funcion recursiva que cumple el objetivo
-    llenadoJarra(jarras)
-
-# Esta funcion hace que la jarra se llenen
-def llenadoJarra(jarra):
-    meta = 2
-    # Jarra 4L = Jarra[0] x
-    # Jarra 3L = Jarra[1] y
-    # Paso 1
-    if jarra[0] < 4:
-        jarra[0] = 4
-    # Paso 2
-    elif jarra[1] < 3:
-        jarra[1] = 3
-
-    # Paso 5
-    elif jarra[0] > 0 :
-        jarra[0] = 0
-    # Paso 7
-    elif jarra[0] + jarra[1] >= 4 and jarra[1] > 0:
-        jarra[1] = jarra[1] - (4 - jarra[0])
-    # Paso 8
-    elif jarra[0] + jarra[1] >= 3 and jarra[0] > 0:
-        jarra[0] = jarra[1] - (4 - jarra[0])
-    # Paso 9
-    elif jarra[0] + jarra[1] <= 4 and jarra[1] > 0:
-        jarra[0] = jarra[0] + jarra[1]
-        jarra[1] = 0
-    # Paso 10
-    elif jarra[0] + jarra[1] <= 3 and jarra[0] > 0:
-        jarra[0]= 0
-        jarra[1] = jarra[0] + jarra[1]
-        
-
-
-    print("[" + str(jarra[0]) + ", " + str(jarra[1]) + "]")
-
-    # Este if termina el loop
-    if jarra[0] == meta or jarra[1] == meta:
-        print('end')
-    else:
-        llenadoJarra(jarra)
-
-
+    # Arregla las reglas
+    def addReglas(self, rule):
+        self.reglas.append(rule)
     
+    # Devuelve las reglas
+    def getReglas(self):
+        return self.reglas
 
-# Main para correr el programa
-if __name__ == "__main__":
-    main()
+    # Esta funcion va a determinar las funciones que va a tener nuestro programa
+    def acciones(self,estado):
+        jarra_de_4=estado[0]
+        jarra_de_3=estado[1]
+
+        if jarra_de_3 < 3 and jarra_de_3 != 2 :
+            return "llenar jarra de 3"
+        elif jarra_de_4 == 4 and jarra_de_3 == 2:
+            return "vaciar jarra de 4"
+        elif jarra_de_4 < 4 and jarra_de_3 > 0:
+            return "jarra de 3 a jarra de 4"
+        elif jarra_de_4 > 0 and jarra_de_3 < 3:
+            return "jarra de 4 a jarra de 3"
+        else:
+            return "vaciar jarra de 4"
+
+
+
+    # Esta funcion aplica las diferentes reglas que se pueden aplicar con nuestro elementos de la tabla
+    def aplica(self,estado,accion):
+        j4=estado[0]
+        j3=estado[1]
+        if accion=="llenar jarra de 4":
+            self.addReglas("Regla 1")
+            return (4,j3)
+        elif accion=="llenar jarra de 3":
+            self.addReglas("Regla 2")
+            return (j4,3)
+        elif accion=="vaciar jarra de 4":
+            self.addReglas("Regla 5")
+            return (0,j3)
+        elif accion=="vaciar jarra de 3":
+            self.addReglas("Regla 6")
+            return (j4,0)
+        elif accion=="jarra de 4 a jarra de 3":
+            if j3 + j4 >= 3:
+                self.addReglas("Regla 8")
+                return (j4-3+j3,3)
+            else:
+                self.addReglas("Regla 10")
+                return (0,j3+j4)
+        else: #  "jarra de 3 a jarra de 4"
+            if j3 + j4 <= 4:
+                self.addReglas("Regla 9")
+                return (j3+j4,0)
+            else:
+                self.addReglas("Regla 7")
+                return (4,j3-4+j4)
+
+
+    def es_estado_final(self,estado):
+        # Manda un booleano de vuelta para comprobar que este funcionando\
+        return estado[0]==2
